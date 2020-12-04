@@ -71,7 +71,11 @@ public class AdminBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity deleteUser(String userID, String authorization) throws UserNotFoundException,
             AuthorizationFailedException{
+
+        //get the user auth Entity and check if the user is signed in and
+        //has not logged out at the time of function call
         UserAuthEntity userAuthEntity = adminDao.getAccessToken(authorization);
+
         if(userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001","User has not signed in");
         }
@@ -79,8 +83,11 @@ public class AdminBusinessService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out");
         }
 
+        //check if the user is the admin
         boolean isAdmin = userAuthEntity.getUser().getRole().equals("admin");
 
+        //If the signed in user is admin, Delete the User else throw the
+        //Unauthorized User exception
         if(isAdmin) {
             UserEntity userEntity = adminDao.deleteUser(userID);
             if(userEntity != null) {

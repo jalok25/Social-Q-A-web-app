@@ -15,6 +15,7 @@ public class AdminDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    //Gets the user uuid and delete the user in the database
     public UserEntity deleteUser(String userId) {
         try {
             UserEntity  userEntity = entityManager.createNamedQuery("userByUuid", UserEntity.class).
@@ -27,6 +28,7 @@ public class AdminDao {
         }
     }
 
+    //Get the authorization and return the UserAuthEntity
     public UserAuthEntity getAccessToken(String authorization) {
         try {
             UserAuthEntity userAuthEntity = entityManager.

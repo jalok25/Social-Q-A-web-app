@@ -5,7 +5,6 @@ import com.upgrad.quora.service.business.AdminBusinessService;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +23,8 @@ public class AdminController {
     public ResponseEntity<UserDeleteResponse>  deleteUser(@PathVariable(value = "userId") final String uuid,
                                                           @RequestHeader("authorization") final String authorization)
             throws AuthorizationFailedException, UserNotFoundException {
+
+        //Delete the User and get the UserEntity of the deleted user
         final UserEntity userEntity = adminBusinessService.deleteUser(uuid, authorization);
         UserDeleteResponse userDeleteResponse =new UserDeleteResponse().id(userEntity.getUuid()).
                 status("USER SUCCESSFULLY DELETED");
